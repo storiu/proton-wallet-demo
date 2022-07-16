@@ -4,12 +4,20 @@ import ProtonWebSDK from "@proton/web-sdk";
 import "./App.css";
 
 function App() {
+  const REQUEST_ACCOUNT = "taskly";
+  const CHAIN_ID =
+    "384da888112027f0321850a169f737c33e53b388aad48b5adace4bab97f437e0";
+  const ENDPOINTS = ["https://proton.greymass.com"];
+
   const login = async () => {
     await ProtonWebSDK({
       linkOptions: {
-        endpoints: ["https://api-dev.protonchain.com/v1/chain/info"],
+        endpoints: ENDPOINTS,
+        chainId: CHAIN_ID,
       },
-      transportOptions: {},
+      transportOptions: {
+        requestAccount: REQUEST_ACCOUNT,
+      },
       selectorOptions: {
         appName: "Tasklyy",
         appLogo:
