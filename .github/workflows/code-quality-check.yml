@@ -1,0 +1,33 @@
+name: Code Quality Check
+
+on: [push, pull_request, issues]
+
+jobs:
+  build:
+    name:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.17.0]
+
+    steps:
+      
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Node Modules
+        run: npm install
+
+
+      - name: Lint Check
+        run: npm run lint
+
+      - name: Prettier Check
+        run: npm run format
+    
+      - name: Build Workspace
+        run: npm run build
