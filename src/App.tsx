@@ -37,11 +37,16 @@ function App() {
   };
 
   return (
-    <>
-      <div onClick={login} className="text-3xl font-bold">
-        Wallet Connect
+    <div className="w-screen h-screen">
+      <div className="flex justify-center items-center h-full">
+        <div
+          onClick={login}
+          className="text-3xl h-20 rounded-md bg-slate-400 p-3 text-center pt-5 hover:cursor-pointer font-bold"
+        >
+          Wallet Connect
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
