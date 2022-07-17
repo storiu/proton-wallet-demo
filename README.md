@@ -27,7 +27,7 @@ You can check the running project on here `https://storiu.github.io/proton-walle
   `npm run deploy`
     
     1. Build the project `npm run build`
-    2. Deploy the builded source to the github page
+    2. Deploy the project to the github page
        `npm run deploy`
    
 
