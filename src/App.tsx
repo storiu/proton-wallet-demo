@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as SDK from "../src/web-sdk";
 
+import * as SDK from "../src/web-sdk";
 import "./App.css";
 
 function App() {
