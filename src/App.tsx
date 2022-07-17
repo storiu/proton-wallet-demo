@@ -34,6 +34,8 @@ function App() {
         },
       },
     });
+
+    window.alert("Successfully connected!");
   };
 
   return (
