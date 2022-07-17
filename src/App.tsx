@@ -1,52 +1,57 @@
-import React from "react";
-import ProtonWebSDK from "@proton/web-sdk";
+import React, { useState } from "react";
+import * as SDK from "../src/web-sdk";
 
 import "./App.css";
 
 function App() {
-  const REQUEST_ACCOUNT = "taskly";
-  const CHAIN_ID =
-    "384da888112027f0321850a169f737c33e53b388aad48b5adace4bab97f437e0";
-  const ENDPOINTS = ["https://proton.greymass.com"];
+  const [user, setUser] = useState({
+    actor: "",
+  });
 
-  const login = async () => {
-    await ProtonWebSDK({
-      linkOptions: {
-        endpoints: ENDPOINTS,
-        chainId: CHAIN_ID,
-      },
-      transportOptions: {
-        requestAccount: REQUEST_ACCOUNT,
-      },
-      selectorOptions: {
-        appName: "Tasklyy",
-        appLogo:
-          "https://taskly.protonchain.com/static/media/taskly-logo.ad0bfb0f.svg",
-        customStyleOptions: {
-          modalBackgroundColor: "#F4F7FA",
-          logoBackgroundColor: "white",
-          isLogoRound: true,
-          optionBackgroundColor: "white",
-          optionFontColor: "black",
-          primaryFontColor: "black",
-          secondaryFontColor: "#6B727F",
-          linkColor: "#752EEB",
-        },
-      },
+  const clear = () =>
+    setUser({
+      actor: "",
     });
 
-    window.alert("Successfully connected!");
+  const login = async (reconnect: boolean = false) => {
+    clear();
+
+    if (reconnect) {
+      await SDK.reconnect();
+    } else {
+      await SDK.login();
+    }
+
+    if (SDK.session && SDK.session.auth) {
+      setUser({
+        actor: SDK.session.auth.actor.toString(),
+      });
+    }
+  };
+
+  const logout = async () => {
+    await SDK.logout();
+    clear();
   };
 
   return (
     <div className="w-screen h-screen">
       <div className="flex justify-center items-center h-full">
-        <div
-          onClick={login}
-          className="text-3xl h-20 rounded-md bg-slate-400 p-3 text-center pt-5 hover:cursor-pointer font-bold"
-        >
-          Wallet Connect
-        </div>
+        {!user.actor ? (
+          <div
+            onClick={() => login()}
+            className="cursor-pointer whitespace-nowrap bg-purple-100 border border-transparent rounded-md py-2 px-4 inline-flex items-center justify-center text-base font-medium text-purple-600 hover:bg-purple-200"
+          >
+            Login
+          </div>
+        ) : (
+          <div
+            className="cursor-pointer whitespace-nowrap bg-purple-100 border border-transparent rounded-md py-2 px-4 inline-flex items-center justify-center text-base font-medium text-purple-600 hover:bg-purple-200"
+            onClick={logout}
+          >
+            Logout
+          </div>
+        )}
       </div>
     </div>
   );
